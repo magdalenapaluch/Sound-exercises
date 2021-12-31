@@ -2,16 +2,12 @@ import Player from "../classes/ModulePlayer.js";
 import { audioContext } from "../main.js";
 import { openFileHandler } from "../helpers/loaders.js";
 
-export default function audioSource(event, initalLoop, initalBufferName, initalPlaybackRate) {
+export default function audioSource(event, initalLoop, initalBufferName) {
     const soundNames = Object.keys(audioContext.nameSoundBuffer);
     const bufferName = initalBufferName === undefined ? soundNames[0] : initalBufferName;
     const looperValue = initalLoop === undefined ? false : Boolean(initalLoop);
-    const playbackRate = parseFloat(initalPlaybackRate || 1);
-    const playbackRateInfo = "Increase the playback rate squeeze the sound wave into a smaller time window, which increases its frequency";
 
-    const module = new Player("audio source", bufferName, soundNames, true, looperValue);
-
-    module.createSlider("playback Rate", playbackRate, 0.1, 5, 0.1, "x", false, playbackRateInfo);
+    const module = new Player("Audio source", bufferName, soundNames, true, looperValue);
 
     // after this openFile will be accessible via module.content.options.select.fileButton
     module.addOpenFileTo(module.content.options.select);

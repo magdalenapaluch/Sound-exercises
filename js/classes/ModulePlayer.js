@@ -34,7 +34,6 @@ export default class Player extends Module {
             module.isTransmitting ? module.stopSound() : module.playSound();
         };
 
-        module.footer.classList.add("move-by-switch");
 
         module.playButton = playButton;
     }
@@ -57,14 +56,12 @@ export default class Player extends Module {
         if (module.type === "audio source") {
             const loop = Boolean(module.content.options.looper.checkbox.checked);
             const bufferName = audioContext.nameSoundBuffer[module.content.options.select.value];
-            const playbackRate = parseFloat(module.content.controllers.playbackRate.slider.value);
             const bufferDuration = Math.floor(bufferName.duration * 1000) + 1;
 
             module.audioNode = undefined;
             module.audioNode = new AudioBufferSourceNode(audioContext, {
                 loop: loop,
                 buffer: bufferName,
-                playbackRate: playbackRate,
             });
 
             // if there is loop disabled stop the sound after delay

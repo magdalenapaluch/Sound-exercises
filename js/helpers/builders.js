@@ -61,7 +61,6 @@ export function buildModule(module) {
     const head = document.createElement("div");
     const close = document.createElement("button");
     const title = document.createElement("span");
-    const footer = document.createElement("div");
     const content = document.createElement("div");
     const options = document.createElement("div");
     const buttons = document.createElement("div");
@@ -218,17 +217,14 @@ export function buildModule(module) {
     leftAndFrontSide.appendChild(leftSide);
     leftAndFrontSide.appendChild(frontSide);
 
-    // module.footer
-    footer.className = "footer";
 
     moduleDiv.setAttribute("audioNodeType", module.name);
     moduleDiv.appendChild(leftAndFrontSide);
-    moduleDiv.appendChild(footer);
+  
 
     module.head = head;
     module.content = content;
-    module.footer = footer;
-
+   
     // add the node into the soundfield
     modulesDiv.appendChild(moduleDiv);
 }
@@ -242,27 +238,12 @@ export function buildModuleSlider(module, property, initialValue, min, max, step
     const sliderDiv = document.createElement("div");
     const valueUnit = document.createElement("div");
     const labelSpan = document.createElement("span");
-    const labelInfo = document.createElement("span");
-    const debugValue = document.createElement("span");
     const audioParam = document.createElement("div");
-    const sliderDebug = document.createElement("div");
     const sliderWraper = document.createElement("div");
     const parameterImg = document.createElement("img");
-    const debugValueDiv = document.createElement("div");
     const parameterType = property.split(" ").join("");
-    const debugValueMin = document.createElement("span");
-    const debugValueMax = document.createElement("span");
-    const debugValueStep = document.createElement("span");
-    const debugHideButton = document.createElement("button");
-    const debugValueMinDiv = document.createElement("div");
-    const debugValueMaxDiv = document.createElement("div");
-    const debugValueStepDiv = document.createElement("div");
     const propertyNoUnderscores = property.split("_").join(""); // used by equalizer
 
-    // module.content.controllers.$parameterType.info.label.tooltip
-    // module.controllers[$parameterType].info.label.tooltip
-    labelInfo.className = "label-tooltip";
-    labelInfo.innerHTML = propertyInfo;
 
     labelSpan.appendChild(document.createTextNode(propertyNoUnderscores));
     labelSpan.className = "label-span";
@@ -270,16 +251,23 @@ export function buildModuleSlider(module, property, initialValue, min, max, step
     // module.content.controllers.$parameterType.info.label
     // or module.controllers[$parameterType].info.label
     label.className = "label";
-    label.appendChild(labelInfo);
     label.appendChild(labelSpan);
-    label.tooltip = labelInfo;
     label.span = labelSpan;
 
     // module.content.controllers.$parameterType.info.valueUnit.value
     // or module.controllers[$parameterType].info.valueUnit.value
     // or module.controllers[$parameterType].value
+    const valueDiv = document.createElement("div")
+
+    valueDiv.className = "valueWrapper"
+    const plus = document.createElement("span")
+    plus.innerHTML = "+";
+
     value.className = "value";
     value.appendChild(document.createTextNode(initialValue));
+
+    valueDiv.appendChild(plus)
+    valueDiv.appendChild(value)
 
     // module.content.controllers.$parameterType.info.units
     // or module.controllers[$parameterType].info.units
@@ -287,15 +275,15 @@ export function buildModuleSlider(module, property, initialValue, min, max, step
     unit.appendChild(document.createTextNode(units));
 
     valueUnit.className = "value-unit";
-    valueUnit.appendChild(value);
+    valueUnit.appendChild(valueDiv);
     units && valueUnit.appendChild(unit); // sometimes there is no unit
+    valueUnit.plus = plus;
     valueUnit.value = value;
     valueUnit.unit = unit;
 
     // module.content.controllers.$parameterType.info
     // or module.controllers[$parameterType].info
     info.className = "slider-info";
-    info.appendChild(label);
     info.appendChild(valueUnit);
     info.valueUnit = valueUnit;
     info.label = label;
@@ -310,62 +298,6 @@ export function buildModuleSlider(module, property, initialValue, min, max, step
     // set inital value to the correct position before user starts to play
     slider.value = scaleLog ? valueToLogPosition(initialValue, min, max) : parseFloat(initialValue);
 
-    debugValueDiv.className = "debug-text";
-    debugValueMinDiv.className = "debug-text";
-    debugValueMaxDiv.className = "debug-text";
-    debugValueStepDiv.className = "debug-text";
-
-    debugValueDiv.appendChild(document.createTextNode("Current: "));
-    debugValueMinDiv.appendChild(document.createTextNode("Min: "));
-    debugValueMaxDiv.appendChild(document.createTextNode("Max: "));
-    debugValueStepDiv.appendChild(document.createTextNode("Step: "));
-
-    debugValue.appendChild(document.createTextNode(scaleLog ? parseFloat(initialValue) : slider.value));
-    debugValueMin.appendChild(document.createTextNode(slider.min));
-    debugValueMax.appendChild(document.createTextNode(slider.max));
-    debugValueStep.appendChild(document.createTextNode(slider.step));
-
-    debugValue.setAttribute("contenteditable", true);
-    debugValueMin.setAttribute("contenteditable", true);
-    debugValueMax.setAttribute("contenteditable", true);
-    debugValueStep.setAttribute("contenteditable", true);
-
-    debugValueMin.oninput = () => {
-        slider.min = parseFloat(debugValueMin.innerText);
-    };
-    debugValueMax.oninput = () => {
-        slider.max = parseFloat(debugValueMax.innerText);
-    };
-    debugValueStep.oninput = () => {
-        slider.step = parseFloat(debugValueStep.innerText);
-    };
-    debugValue.oninput = () => {
-        value.innerHTML = parseFloat(debugValue.innerText);
-        slider.value = slider.scaleLog ? valueToLogPosition(debugValue.innerText, slider.min, slider.max) : debugValue.innerText;
-
-        // set value on the audiNode parameter
-        if (module.audioNode) module.audioNode[parameterType].value = debugValue.innerText;
-    };
-
-    debugValueDiv.appendChild(debugValue);
-    debugValueMinDiv.appendChild(debugValueMin);
-    debugValueMaxDiv.appendChild(debugValueMax);
-    debugValueStepDiv.appendChild(debugValueStep);
-
-    debugHideButton.className = "hide-button";
-    debugHideButton.onclick = () => {
-        sliderDebug.classList.remove("show");
-    };
-
-    // module.content.controllers.$parameterType.slider.debug or module.controllers[$parameterType].slider.debug
-    sliderDebug.className = "slider-debug";
-    sliderDebug.appendChild(debugValueMinDiv);
-    sliderDebug.appendChild(debugValueMaxDiv);
-    sliderDebug.appendChild(debugValueStepDiv);
-    sliderDebug.appendChild(debugValueDiv);
-    sliderDebug.appendChild(debugHideButton);
-    // use in Module to update currentValue textNode when debug opens
-    sliderDebug.currentValue = debugValue;
 
     sliderWraper.className = "input-wrapper";
     sliderWraper.appendChild(slider);
@@ -374,11 +306,10 @@ export function buildModuleSlider(module, property, initialValue, min, max, step
     sliderDiv.className = "slider";
     sliderDiv.appendChild(info);
     sliderDiv.appendChild(sliderWraper);
-    sliderDiv.appendChild(sliderDebug);
+    sliderDiv.appendChild(label);
     sliderDiv.info = info;
     sliderDiv.slider = slider;
     sliderDiv.wrapper = sliderWraper;
-    sliderDiv.debug = sliderDebug;
 
     // if sliders div have not been created yet do it
     if (!module.content.controllers.sliders) {
@@ -393,6 +324,7 @@ export function buildModuleSlider(module, property, initialValue, min, max, step
     module.content.controllers[parameterType] = sliderDiv;
     module.content.controllers[parameterType].value = value;
     module.content.controllers[parameterType].unit = unit;
+    module.content.controllers[parameterType].plus = plus;
 
     // module.footer.$parameterType.img
     // keep info about parent and type in image and it's wrapper for movingCable function
@@ -407,8 +339,6 @@ export function buildModuleSlider(module, property, initialValue, min, max, step
     audioParam.appendChild(parameterImg);
     audioParam.img = parameterImg;
 
-    module.footer.appendChild(audioParam);
-    module.footer[parameterType] = audioParam;
 }
 /* build HTML (and SVG) structure for cable */
 export function buildCable(cable) {

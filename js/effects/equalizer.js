@@ -13,7 +13,7 @@ export default function equalizer(event, initialBandWidth) {
     const gain4000HzInfo = "Boost or an attenuation of frequency 4000 Hz";
     const gain8000HzInfo = "Boost or an attenuation of frequency 8000 Hz";
 
-    const module = new Module("equalizer", true, false, false, undefined);
+    const module = new Module("Equalizer", true, false, false, undefined);
 
     module.audioNode = {
         inputNode: new GainNode(audioContext),
@@ -33,25 +33,25 @@ export default function equalizer(event, initialBandWidth) {
             module.audioNode.hz2000Node.Q.value = 1 / value;
             module.audioNode.hz4000Node.Q.value = 1 / value;
         }),
-        get _125Hz() {
+        get _125() {
             return this.hz125Node.gain;
         },
-        get _250Hz() {
+        get _250() {
             return this.hz250Node.gain;
         },
-        get _500Hz() {
+        get _500() {
             return this.hz500Node.gain;
         },
-        get _1000Hz() {
+        get _1k() {
             return this.hz1000Node.gain;
         },
-        get _2000Hz() {
+        get _2k() {
             return this.hz2000Node.gain;
         },
-        get _4000Hz() {
+        get _4k() {
             return this.hz4000Node.gain;
         },
-        get _8000Hz() {
+        get _8k() {
             return this.hz8000Node.gain;
         },
         connect(destination) {
@@ -63,14 +63,13 @@ export default function equalizer(event, initialBandWidth) {
         },
     };
 
-    module.createSlider("_125 Hz", 0, -8, 8, 0.1, "dB", false, gain125HzInfo);
-    module.createSlider("_250 Hz", 0, -8, 8, 0.1, "dB", false, gain250HzInfo);
-    module.createSlider("_500 Hz", 0, -8, 8, 0.1, "dB", false, gain500HzInfo);
-    module.createSlider("_1000 Hz", 0, -8, 8, 0.1, "dB", false, gain1000HzInfo);
-    module.createSlider("_2000 Hz", 0, -8, 8, 0.1, "dB", false, gain2000HzInfo);
-    module.createSlider("_4000 Hz", 0, -8, 8, 0.1, "dB", false, gain4000HzInfo);
-    module.createSlider("_8000 Hz", 0, -8, 8, 0.1, "dB", false, gain8000HzInfo);
-    module.createSlider("band Width", bandWidth, 0.1, 5, 0.1, "", false, bandWidthInfo);
+    module.createSlider("_125", 0, -8, 8, 8, "dB", false, gain125HzInfo);
+    module.createSlider("_250", 0, -8, 8, 8, "dB", false, gain250HzInfo);
+    module.createSlider("_500", 0, -8, 8, 8, "dB", false, gain500HzInfo);
+    module.createSlider("_1k", 0, -8, 8, 8, "dB", false, gain1000HzInfo);
+    module.createSlider("_2k", 0, -8, 8, 8, "dB", false, gain2000HzInfo);
+    module.createSlider("_4k", 0, -8, 8, 8, "dB", false, gain4000HzInfo);
+    module.createSlider("_8k", 0, -8, 8, 8, "dB", false, gain8000HzInfo);
 
     module.audioNode.inputNode.connect(module.audioNode.hz8000Node);
     module.audioNode.hz8000Node.connect(module.audioNode.hz4000Node);

@@ -1,11 +1,11 @@
 import Module from "../classes/Module.js";
 import { audioContext } from "../main.js";
-import { displayAlertOnElement, addModuleToMixer, buildMixer } from "../helpers/builders.js";
+import { displayAlertOnElement } from "../helpers/builders.js";
 
 export default function output(event) {
     const speakerImg = document.createElement("img");
 
-    const module = new Module("output", true, false, false, undefined);
+    const module = new Module("Output", true, false, false, undefined);
 
     speakerImg.src = "./img/speaker.svg";
     module.content.controllers.appendChild(speakerImg);

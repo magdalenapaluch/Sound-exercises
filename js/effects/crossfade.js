@@ -7,7 +7,7 @@ export default function crossfade(event, initalRatio) {
     const ratio = parseFloat(initalRatio || 50);
     const ratioInfo = "Crossfade ratio between track one and two. 0 is full first, 100 is full second";
 
-    const module = new Module("crossfade", true, false, false, undefined);
+    const module = new Module("Crossfade", true, false, false, undefined);
 
     module.audioNode = {
         inputNode: new DelayNode(audioContext), // just fake one for the sake of connectToModule()

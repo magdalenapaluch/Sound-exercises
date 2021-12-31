@@ -1,0 +1,201 @@
+
+.nav {
+    display: inline-block;
+
+    padding: .5em;
+
+    position: relative;
+
+    z-index: 1000;
+    margin-left: 8px;
+
+    filter: drop-shadow(3px 3px 1px rgba(0, 0, 0, .2));
+}
+
+.nav .nav-list {
+    padding: 0;
+
+
+    margin: 0;
+
+    list-style: none;
+}
+
+.nav .nav-list .menu {
+    float: left;
+    position: relative;
+    margin-right: .8em;
+}
+
+.nav .nav-list .menu:hover .submenu {
+    display: block;
+}
+
+.nav .nav-list .menu .menu-button {
+    display: block;
+
+    padding: .5em 1em;
+
+    font-size: .625em;
+    text-transform: uppercase;
+
+    border-radius: 5px;
+    background: rgb(224, 224, 224);
+
+    transition: background-color .2s;
+
+    -webkit-transition: background-color .2s;
+    -moz-transition: background-color .2s;
+    -o-transition: background-color .2s;
+}
+
+.nav .nav-list .menu .menu-button:hover {
+    background: rgb(240, 240, 240);
+}
+
+.nav .nav-list .menu .menu-button::before {
+    content: url('../img/add.svg');
+
+    position: relative;
+    top: 1px;
+    margin-right: 7px;
+
+    transition: filter .2s;
+
+    filter: brightness(0) contrast(.1);
+    -webkit-transition: filter .2s;
+    -moz-transition: filter .2s;
+    -o-transition: filter .2s;
+}
+
+.nav .nav-list .menu .menu-button.tutorials::before {
+    content: url('../img/tutorial.svg');
+}
+
+.nav .nav-list .menu .menu-button:hover::before {
+    filter: none;
+}
+
+.nav .nav-list .menu .submenu {
+    display: none;
+
+    padding-top: 8px;
+
+    position: absolute;
+}
+
+.nav .nav-list .menu .submenu .submenu-list {
+    padding: .2em 0;
+
+    position: relative;
+
+    list-style: none;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.nav .nav-list .menu .submenu .submenu-list::after,
+.submenu-list::before {
+    content: " ";
+    pointer-events: none;
+
+    width: 0;
+    height: 0;
+
+    position: absolute;
+    bottom: 100%;
+
+    border: solid transparent;
+}
+
+.nav .nav-list .menu .submenu .submenu-list::after {
+    margin-left: 6px;
+
+    border-width: 8px;
+    border-bottom-color: #ffffff;
+}
+
+.nav .nav-list .menu .submenu .submenu-list::before {
+    margin-left: 5px;
+
+    border-width: 9px;
+    border-bottom-color: #aaa;
+}
+
+.nav .nav-list .menu .submenu .submenu-list .submenu-item {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav .nav-list .menu .submenu .submenu-list .submenu-item .form-help {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+
+    width: 10px;
+    height: 10px;
+    padding: 3px;
+}
+
+.nav .nav-list .menu .submenu .submenu-list .submenu-item .form-help .help {
+    width: 7px;
+    height: 7px;
+
+    border: none;
+    background: url('../img/help.svg') no-repeat center center;
+    background-size: contain;
+    cursor: pointer;
+    opacity: .5;
+
+    transition: filter, width, height .2s;
+
+    filter: brightness(0) contrast(.1);
+    -webkit-transition: filter, width, height .2s;
+    -moz-transition: filter, width, height .2s;
+    -o-transition: filter, width, height .2s;
+}
+
+.nav .nav-list .menu .submenu .submenu-list .submenu-item .form-help:hover .help {
+    width: 100%;
+    height: 100%;
+
+    opacity: 1;
+
+    filter: none;
+}
+
+.nav .nav-list .menu .submenu .submenu-list .submenu-item .submenu-button,
+.tutorial {
+    width: 100%;
+    padding: .8em;
+
+    font-size: .625em;
+    text-align: left;
+    white-space: nowrap;
+    text-transform: uppercase;
+
+    background: #fff;
+    cursor: pointer;
+}
+
+.nav .nav-list .menu .submenu .submenu-list .submenu-item .submenu-button:hover,
+.tutorial:hover,
+.help:hover {
+    background: linear-gradient(90deg, rgba(219, 219, 219, 1) 60%, #ffffff);
+}
+
+.nav .nav-list .menu .submenu .submenu-list .submenu-item .tutorial {
+    border: none;
+}
+
+.selection-rect {
+    position: absolute;
+
+    border: 1px dotted #000;
+    background: #1c94c44b;
+}

@@ -122,12 +122,16 @@ export default class Module {
             // cut decimals so they fit to the decimals of slider.step
             sliderValue = parseFloat(sliderValue).toFixed(sliderDecimals);
 
+            // make plus visible if positive
+            console.log(module.content.controllers[parameterType].plus);
+            if (sliderValue > 0)  module.content.controllers[parameterType].plus.className = "positive"
+            else module.content.controllers[parameterType].plus.className = "negative"
+
             // set value on the audiNode parameter
             if (module.audioNode) module.audioNode[parameterType].value = sliderValue;
 
             // show new value above slider and in debug
             module.content.controllers[parameterType].value.innerHTML = sliderValue;
-            module.content.controllers[parameterType].debug.currentValue.innerText = sliderValue;
         };
 
         // show slider's debug mode when hovered over value for 1 sec
